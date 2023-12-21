@@ -4,5 +4,5 @@ const config = {
   password: 'root',
   database: 'talking-room'
 }
-
+export const secretKey = 'secretKey'
 export default config
