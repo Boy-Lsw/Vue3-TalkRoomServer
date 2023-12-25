@@ -3,9 +3,15 @@ import router from './router/index.js'
 import bodyParser from 'body-parser'
 import { expressjwt } from 'express-jwt'
 import { secretKey } from './database/config.js'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
+import { socketServer } from './socket/index.js'
 
 const port = 3000
 const app = express()
+const httpServer = createServer(app)
+const io = new Server(httpServer, { cors: true })
+socketServer(io)
 
 app.use(bodyParser.json())
 app.use(
@@ -28,6 +34,6 @@ app.use((err, req, res, next) => {
 })
 app.use(router)
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`server run in port ${port}!`)
 })

@@ -13,6 +13,7 @@ const validateUser = async (name, pass) => {
   const { password, ...result } = user
   if (comparePassword) {
     const token = jwt.sign({ username: user.username, sub: user.id }, secretKey, { expiresIn: '2h' })
+    // console.log(token)
     return { ...result, token }
   } else return null
 }
