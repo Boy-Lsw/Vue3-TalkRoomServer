@@ -17,6 +17,7 @@ router.use('/all', async (req, res) => {
 })
 
 router.use('/avatar', async (req, res) => {
+  // console.log(req.body)
   const { username, avatar } = req.body
   if (username) {
     await userApi.uploadAvatar(username, avatar)

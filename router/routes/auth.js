@@ -8,13 +8,12 @@ import { secretKey } from '../../database/config.js'
 
 const validateUser = async (name, pass) => {
   const [user] = await query(`select * from user where username = '${name}'`)
-  if (!user.length) return null
+  if (!user) return null
   let comparePassword = bcryptjs.compareSync(pass, user.password)
-  console.log(comparePassword)
   const { password, ...result } = user
   if (comparePassword) {
-    const access_token = jwt.sign({ username: user.username, sub: user.id }, secretKey, { expiresIn: '120s' })
-    const refresh_token = jwt.sign({ username: user.username }, secretKey, { expiresIn: '10d' })
+    const access_token = jwt.sign({ username: user.username, sub: user.id }, secretKey, { expiresIn: '1h' })
+    const refresh_token = jwt.sign({ username: user.username }, secretKey, { expiresIn: '14d' })
     return { ...result, access_token, refresh_token }
   } else return null
 }
@@ -56,6 +55,14 @@ router.use('/login', async (req, res) => {
       msg: '请检查用户名或密码是否正确'
     })
   }
+})
+
+router.use('/refreshToken', (req, res) => {
+  const { username } = req.body
+  const access_token = jwt.sign({ username }, secretKey, { expiresIn: '1h' })
+  res.send({
+    access_token
+  })
 })
 
 export default router
