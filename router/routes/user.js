@@ -23,7 +23,8 @@ router.use('/avatar', async (req, res) => {
     await userApi.uploadAvatar(username, avatar)
     res.send({
       code: '200',
-      msg: '更换头像成功!'
+      msg: '更换头像成功!',
+      avatar
     })
   }
 })
