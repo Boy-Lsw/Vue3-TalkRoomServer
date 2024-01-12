@@ -45,15 +45,6 @@ export const socketServer = io => {
     })
 
     socket.on('disconnecting', () => {
-      const index = roomList[roomId].indexOf(user) !== -1
-      if (index !== -1) {
-        roomList[roomId].splice(index, 1)
-      }
-      socket.leave(roomId)
-      socket.room = null
-      io.to(roomId).emit('sys', { msg: `${user}离开了房间`, roomId, users: roomList[roomId] })
-      console.log(user + '退出了房间：' + roomId)
-
       socket.broadcast.emit('quit', socket.id)
       console.log(`客户端${socket.id}已断开连接`)
     })
