@@ -39,8 +39,8 @@ export const socketServer = io => {
     })
 
     socket.on('sendRoomMessage', data => {
-      socket.emit('sendRoomMessage', data)
-      socket.to(roomId).emit('sendRoomMessage', data)
+      socket.emit('getRoomMessage', data)
+      socket.to(roomId).emit('getRoomMessage', data)
       return
     })
 
